@@ -1,2 +1,27 @@
 ---
 # tasks file for buildsite
+
+- name: Install prereqs to clone packages
+  package:
+    name:
+      - git
+      - pip
+    state: present
+
+- name: Pull down checky into a local working directory
+  git:
+    repo: https://github.com/rufuskd/checkymatic.git
+    dest: /checkycode
+
+- name: Pip install npm to pull angular
+  command: 'pip install npm'
+
+- name: Install angular utils locally to the checky code
+  command: 'npm install'
+  args:
+    chdir: checkycode/
+
+- name: Install angular cli locally to the checky code
+  command: 'npm install -g @angular/cli'
+  args:
+    chdir: checkycode/
