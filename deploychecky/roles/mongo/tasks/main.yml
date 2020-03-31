@@ -1,2 +1,24 @@
 ---
 # tasks file for mongo
+
+- name: Stop any existing mongo container
+  command: podman stop checky-mongo
+  ignore_errors: yes
+  become: yes
+
+- name: Remove any existing mongo container
+  command: podman rm checky-mongo
+  ignore_errors: yes
+  become: yes
+
+- name: Build the mongo container
+  podman_image:
+    name: checky-mongo
+    path: ../mongocontainer/
+    build:
+      format: docker
+  become: yes
+
+- name: Run the mongo container
+  command: podman run --name checky-mongo -p 27017:27017 -d checky-mongo
+  become: yes

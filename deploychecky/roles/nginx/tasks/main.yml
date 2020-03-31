@@ -1,2 +1,24 @@
 ---
 # tasks file for nginx
+
+- name: Stop any existing nginx container
+  command: podman stop checky-nginx
+  ignore_errors: yes
+  become: yes
+
+- name: Remove any existing nginx container
+  command: podman rm checky-nginx
+  ignore_errors: yes
+  become: yes
+
+- name: Build the nginx container
+  podman_image:
+    name: checky-nginx
+    path: ../checkycontainer/
+    build:
+      format: docker
+  become: yes
+
+- name: Run the nginx container
+  command: podman run --name checky-nginx -p 8080:80 -d checky-nginx
+  become: yes

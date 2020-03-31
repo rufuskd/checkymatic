@@ -3,3 +3,7 @@
   tasks:
     - import_role:
         name: buildsite
+    - import_role:
+        name: nginx
+    - import_role:
+        name: mongo
