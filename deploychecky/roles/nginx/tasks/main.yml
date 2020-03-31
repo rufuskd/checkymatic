@@ -5,11 +5,13 @@
   command: podman stop checky-nginx
   ignore_errors: yes
   become: yes
+  tags: cleanup
 
 - name: Remove any existing nginx container
   command: podman rm checky-nginx
   ignore_errors: yes
   become: yes
+  tags: cleanup
 
 - name: Build the nginx container
   podman_image:

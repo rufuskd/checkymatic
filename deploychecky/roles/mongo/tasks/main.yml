@@ -5,11 +5,13 @@
   command: podman stop checky-mongo
   ignore_errors: yes
   become: yes
+  tags: cleanup
 
 - name: Remove any existing mongo container
   command: podman rm checky-mongo
   ignore_errors: yes
   become: yes
+  tags: cleanup
 
 - name: Build the mongo container
   podman_image:
