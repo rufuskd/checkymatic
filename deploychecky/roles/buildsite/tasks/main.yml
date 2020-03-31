@@ -28,3 +28,31 @@
   args:
     chdir: ../checkycode/
   become: yes
+
+- name: Build the angular site
+  command: ./node_modules/.bin/ng build --prod
+  args:
+    chdir: ../checkycode/
+
+- name: Move the built site to the nginx container folder
+  copy:
+    src: ../checkycode/dist/checky
+    dest: ../checkycontainer/checky
+
+- name: Stop any existing nginx container
+  command: docker stop checky-nginx
+  ignore_errors: yes
+
+- name: Remove any existing nginx container
+  command: docker rm checky-nginx
+  ignore_errors: yes
+
+- name: Build the nginx container
+  podman_image:
+    name: checky-nginx
+    path: ../checkycontainer/
+    build:
+      format: docker
+
+- name: Run the nginx container
+  command: docker run --name checky-nginx -p 8080:80 checky-nginx
