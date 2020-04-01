@@ -1,2 +1,26 @@
 ---
 # tasks file for gunicorn
+
+- name: Stop any existing gunicorn container
+  command: podman stop checky-gunicorn
+  ignore_errors: yes
+  become: yes
+  tags: cleanup
+
+- name: Remove any existing gunicorn container
+  command: podman rm checky-gunicorn
+  ignore_errors: yes
+  become: yes
+  tags: cleanup
+
+- name: Build the gunicorn container
+  podman_image:
+    name: checky-gunicorn
+    path: ../gunicorncontainer/
+    build:
+      format: docker
+  become: yes
+
+- name: Run the gunicorn container
+  command: podman run --name checky-gunicorn -p 8000:8000 -d checky-gunicorn
+  become: yes
