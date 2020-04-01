@@ -19,6 +19,7 @@
     path: ../checkycontainer/
     build:
       format: docker
+    force: yes
   become: yes
 
 - name: Run the nginx container

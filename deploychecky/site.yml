@@ -7,3 +7,5 @@
         name: nginx
     - import_role:
         name: mongo
+    - import_role:
+        name: gunicorn

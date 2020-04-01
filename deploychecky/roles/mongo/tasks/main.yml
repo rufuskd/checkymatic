@@ -19,6 +19,7 @@
     path: ../mongocontainer/
     build:
       format: docker
+    force: yes
   become: yes
 
 - name: Run the mongo container
