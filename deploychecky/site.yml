@@ -3,9 +3,17 @@
   tasks:
     - import_role:
         name: buildsite
+      tags:
+      - frontend
     - import_role:
         name: nginx
+      tags:
+      - frontend
     - import_role:
         name: mongo
+      tags:
+      - nofrontend
     - import_role:
         name: gunicorn
+      tags:
+      - nofrontend
