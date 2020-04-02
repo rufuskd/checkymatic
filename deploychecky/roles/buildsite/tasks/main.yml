@@ -14,6 +14,13 @@
   git:
     repo: https://github.com/rufuskd/checky.git
     dest: ../checkycode
+  register: results
+  ignore_errors: yes
+
+- name: Output a warning message that checky might be old"
+  debug:
+    msg: "Could not pull from github, using old code"
+  when: "'FAILED' in results"
 
 - name: Pip install npm to pull angular
   command: 'pip install npm'
@@ -40,3 +47,13 @@
     src: ../checkycode/dist/checky
     dest: ../checkycontainer/checky
 
+- name: Cleanup previously used IP info
+  file:
+    path:
+      - "/var/lib/cni/networks/podman/{{ nginx.ip }}"
+      - "/var/lib/cni/networks/podman/{{ mongo.ip }}"
+      - "/var/lib/cni/networks/podman/{{ gunicorn.ip }}"
+      - "/var/lib/cni/networks/podman/last_reserved_ip.0"
+      - "/var/lib/cni/networks/podman/lock"
+    state: absent
+  become: yes
