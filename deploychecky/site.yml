@@ -9,11 +9,14 @@
         name: nginx
       tags:
       - frontend
+      - rebuild
     - import_role:
         name: mongo
       tags:
       - nofrontend
+      - rebuild
     - import_role:
         name: gunicorn
       tags:
       - nofrontend
+      - rebuild

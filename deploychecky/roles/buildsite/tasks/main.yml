@@ -41,11 +41,15 @@
   command: ./node_modules/.bin/ng build --prod
   args:
     chdir: ../checkycode/
+  tags:
+  - rebuild
 
 - name: Move the built site to the nginx container folder
   copy:
     src: ../checkycode/dist/checky
     dest: ../checkycontainer/checky
+  tags:
+  - rebuild
 
 - name: Cleanup previously used IP info
   file:
@@ -56,4 +60,6 @@
       - "/var/lib/cni/networks/podman/last_reserved_ip.0"
       - "/var/lib/cni/networks/podman/lock"
     state: absent
+  tags:
+  - rebuild
   become: yes
