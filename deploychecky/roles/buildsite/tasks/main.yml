@@ -15,6 +15,7 @@
     repo: https://github.com/rufuskd/checky.git
     dest: ../checkycode
   register: results
+  force: yes
   ignore_errors: yes
 
 - name: Output a warning message that checky might be old"
