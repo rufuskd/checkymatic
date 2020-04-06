@@ -40,8 +40,8 @@
 
 - name: Move the built site to the nginx container folder
   copy:
-    src: ../checkycode/dist/checky
-    dest: ../checkycontainer/checky
+    src: ../checkycode/dist/
+    dest: ../checkycontainer/
   tags:
   - rebuild
 
