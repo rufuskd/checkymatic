@@ -15,13 +15,6 @@
     repo: https://github.com/rufuskd/checky.git
     dest: ../checkycode
     force: yes
-  register: results
-  ignore_errors: yes
-
-- name: Output a warning message that checky might be old"
-  debug:
-    msg: "Could not pull from github, using old code"
-  when: "'FAILED' in results"
 
 - name: Pip install npm to pull angular
   command: 'pip install npm'
