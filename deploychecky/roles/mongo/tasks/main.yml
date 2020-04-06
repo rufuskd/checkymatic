@@ -23,5 +23,5 @@
   become: yes
 
 - name: Run the mongo container
-  command: podman run --name checky-mongo -p 27017:27017 --ip={{ mongo.ip }} -d checky-mongo
+  command: podman run --name checky-mongo --ip={{ mongo.ip }} -d checky-mongo
   become: yes

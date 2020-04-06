@@ -23,5 +23,5 @@
   become: yes
 
 - name: Run the gunicorn container
-  command: podman run --name checky-gunicorn -p 8000:8000 --ip={{gunicorn.ip}} -d checky-gunicorn
+  command: podman run --name checky-gunicorn --ip={{gunicorn.ip}} -d checky-gunicorn
   become: yes

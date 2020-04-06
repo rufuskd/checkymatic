@@ -23,5 +23,5 @@
   become: yes
 
 - name: Run the nginx container
-  command: podman run --name checky-nginx -p 80:80 --ip={{ nginx.ip }} -d checky-nginx
+  command: podman run --name checky-nginx --ip={{ nginx.ip }} -d checky-nginx
   become: yes
