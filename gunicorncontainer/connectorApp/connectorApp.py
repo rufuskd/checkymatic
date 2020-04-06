@@ -15,6 +15,8 @@ def app(environ, start_response):
         request_body_size = int(environ.get('CONTENT_LENGTH', 0))
     except (ValueError):
         request_body_size = 0
+    print(environ)
+    print("BENIS")
     print(environ['wsgi.input'].read(request_body_size))
     collection.insert_one(testdoc)
     data = b"Let's do this\n"
