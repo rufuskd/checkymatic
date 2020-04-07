@@ -1,4 +1,6 @@
 import pymongo
+import json
+from bson.json_util import dumps
 
 def app(environ, start_response):
     client = pymongo.MongoClient('10.88.0.103', 27017)
@@ -8,17 +10,26 @@ def app(environ, start_response):
         request_body_size = int(environ.get('CONTENT_LENGTH', 0))
     except (ValueError):
         request_body_size = 0
-    print(environ)
     if environ['REQUEST_METHOD'] == 'POST':
         testdoc = environ['wsgi.input'].read(request_body_size)
-        collection.insert_one(testdoc)
+        print(testdoc)
+        jsonToPush = json.loads((testdoc.decode('utf8')))
+        print(json.dumps(jsonToPush))
+        collection.insert_one(jsonToPush)
         data = { "LOL": "Benis" }
+        print("POST")
     elif environ['REQUEST_METHOD'] == 'GET':
         #testdoc = environ['wsgi.input'].read(request_body_size)
-        data = collection.find()
+        data = dumps(collection.find())
+        print(data)
+        print("GET")
+        start_response("200 OK", [
+            ("Content-Type", "application/json")
+        ])
+        return [data.encode('utf-8')]
     else:
         data = { "Status": "Borked" }
     start_response("200 OK", [
         ("Content-Type", "application/json")
     ])
-    return iter([data])
+    return [data]
