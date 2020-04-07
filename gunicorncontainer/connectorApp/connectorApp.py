@@ -11,12 +11,14 @@ def app(environ, start_response):
     print(environ)
     if environ['REQUEST_METHOD'] == 'POST':
         testdoc = environ['wsgi.input'].read(request_body_size)
-        #collection.insert_one(testdoc)
-        data = b"We ballin\n"
+        collection.insert_one(testdoc)
+        data = { "LOL": "Benis" }
+    elif environ['REQUEST_METHOD'] == 'GET':
+        #testdoc = environ['wsgi.input'].read(request_body_size)
+        data = collection.find()
     else:
-        data = b"Let's do this\n"
+        data = { "Status": "Borked" }
     start_response("200 OK", [
-        ("Content-Type", "application/json"),
-        ("Content-Length", str(len(data)))
+        ("Content-Type", "application/json")
     ])
     return iter([data])
