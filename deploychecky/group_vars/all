@@ -4,3 +4,4 @@ gunicorn:
   ip: '10.88.0.102'
 mongo:
   ip: '10.88.0.103'
+localCodeDir: '/home/rufus/checky/'

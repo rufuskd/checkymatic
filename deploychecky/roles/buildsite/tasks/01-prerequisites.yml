@@ -1,0 +1,15 @@
+---
+# Common prerequisite tasks
+
+- name: Install prereqs to clone packages
+  package:
+    name:
+      - git
+      - python-pip
+      - podman
+      - rsync
+    state: present
+  become: yes
+
+- name: Pip install npm to pull angular
+  command: 'pip install npm'

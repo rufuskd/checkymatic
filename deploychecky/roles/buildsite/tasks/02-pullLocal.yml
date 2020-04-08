@@ -1,0 +1,10 @@
+---
+# tasks specific to building from local code
+
+- name: Move the code to the checkymatic code folder
+  synchronize:
+    src: "{{ localCodeDir }}"
+    dest: ../checkycode
+    rsync_opts:
+      - "--exclude=node_modules"
+      - "--exclude=dist"

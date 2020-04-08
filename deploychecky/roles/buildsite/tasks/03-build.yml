@@ -1,0 +1,35 @@
+---
+# tasks to build the site
+
+- name: Install angular utils locally to the checky code
+  command: 'npm install'
+  args:
+    chdir: ../checkycode/
+  become: yes
+
+- name: Install angular cli locally to the checky code
+  command: 'npm install -g @angular/cli'
+  args:
+    chdir: ../checkycode/
+  become: yes
+
+- name: Build the angular site
+  command: ./node_modules/.bin/ng build --prod
+  args:
+    chdir: ../checkycode/
+
+- name: Move the built site to the nginx container folder
+  copy:
+    src: ../checkycode/dist/
+    dest: ../checkycontainer/
+
+- name: Cleanup previously used IP info
+  file:
+    path:
+      - "/var/lib/cni/networks/podman/{{ nginx.ip }}"
+      - "/var/lib/cni/networks/podman/{{ mongo.ip }}"
+      - "/var/lib/cni/networks/podman/{{ gunicorn.ip }}"
+      - "/var/lib/cni/networks/podman/last_reserved_ip.0"
+      - "/var/lib/cni/networks/podman/lock"
+    state: absent
+  become: yes

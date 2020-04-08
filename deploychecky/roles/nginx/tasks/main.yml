@@ -13,6 +13,11 @@
   become: yes
   tags: cleanup
 
+- name: Move the nginx.conf template to the container folder
+  template:
+    src: nginx.conf.j2
+    dest: ../checkycontainer/nginx.conf
+
 - name: Build the nginx container
   podman_image:
     name: checky-nginx

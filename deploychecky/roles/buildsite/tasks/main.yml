@@ -1,59 +1,22 @@
 ---
 # tasks file for buildsite
 
-- name: Install prereqs to clone packages
-  package:
-    name:
-      - git
-      - python-pip
-      - podman
-    state: present
-  become: yes
-
-- name: Pull down checky into a local working directory
-  git:
-    repo: https://github.com/rufuskd/checky.git
-    dest: ../checkycode
-    force: yes
-
-- name: Pip install npm to pull angular
-  command: 'pip install npm'
-
-- name: Install angular utils locally to the checky code
-  command: 'npm install'
-  args:
-    chdir: ../checkycode/
-  become: yes
-
-- name: Install angular cli locally to the checky code
-  command: 'npm install -g @angular/cli'
-  args:
-    chdir: ../checkycode/
-  become: yes
-
-- name: Build the angular site
-  command: ./node_modules/.bin/ng build --prod
-  args:
-    chdir: ../checkycode/
+- name: Install all prerequisite packages
+  import_tasks: 01-prerequisites.yml
   tags:
-  - rebuild
+    - pullCode
+    - useLocal
 
-- name: Move the built site to the nginx container folder
-  copy:
-    src: ../checkycode/dist/
-    dest: ../checkycontainer/
-  tags:
-  - rebuild
+- name: If doing remote pull build, pull Checky code
+  import_tasks: 02-pullGit.yml
+  tags: pullCode
 
-- name: Cleanup previously used IP info
-  file:
-    path:
-      - "/var/lib/cni/networks/podman/{{ nginx.ip }}"
-      - "/var/lib/cni/networks/podman/{{ mongo.ip }}"
-      - "/var/lib/cni/networks/podman/{{ gunicorn.ip }}"
-      - "/var/lib/cni/networks/podman/last_reserved_ip.0"
-      - "/var/lib/cni/networks/podman/lock"
-    state: absent
+- name: If doing local build, use locally stored Checky code as per group_vars
+  import_tasks: 02-pullLocal.yml
+  tags: useLocal
+
+- name: Build the site using the code we have chosen
+  import_tasks: 03-build.yml
   tags:
-  - rebuild
-  become: yes
+    - pullCode
+    - useLocal

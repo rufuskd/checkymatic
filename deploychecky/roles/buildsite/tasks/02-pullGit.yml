@@ -1,0 +1,8 @@
+---
+# tasks specific to building from source pulled off github
+
+- name: Pull down checky into a local working directory
+  git:
+    repo: https://github.com/rufuskd/checky.git
+    dest: ../checkycode
+    force: yes

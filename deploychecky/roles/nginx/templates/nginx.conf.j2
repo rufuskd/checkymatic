@@ -16,11 +16,12 @@ http {
   sendfile on;
 
   upstream gunicorn {
-    server 10.88.0.102:8000;
+    server {{gunicorn.ip}}:8000;
   }
 
   server {
-    listen 0.0.0.0:80;
+    listen 80;
+    server_name checky.local;
     index index.html;
     root /usr/share/nginx/html;
 

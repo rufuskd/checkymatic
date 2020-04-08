@@ -19,7 +19,6 @@ def app(environ, start_response):
         data = { "LOL": "Benis" }
         print("POST")
     elif environ['REQUEST_METHOD'] == 'GET':
-        #testdoc = environ['wsgi.input'].read(request_body_size)
         data = dumps(collection.find())
         print(data)
         print("GET")

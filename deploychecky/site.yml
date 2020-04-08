@@ -3,20 +3,18 @@
   tasks:
     - import_role:
         name: buildsite
-      tags:
-      - frontend
     - import_role:
         name: nginx
       tags:
-      - frontend
-      - rebuild
+        - useLocal
+        - pullCode
     - import_role:
         name: mongo
       tags:
-      - nofrontend
-      - rebuild
+        - useLocal
+        - pullCode
     - import_role:
         name: gunicorn
       tags:
-      - nofrontend
-      - rebuild
+        - useLocal
+        - pullCode
