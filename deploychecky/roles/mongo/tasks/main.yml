@@ -22,6 +22,11 @@
     force: yes
   become: yes
 
+- name: Ensure that the mongo directory exists for the persistent volume
+  file:
+    path: ../mongocontainer/mongo
+    state: directory
+
 - name: Run the mongo container
-  command: podman run --name checky-mongo --ip={{ mongo.ip }} -d checky-mongo
+  command: podman run --name checky-mongo -v ../mongocontainer/mongo:/data/db --ip={{ mongo.ip }} -d checky-mongo
   become: yes

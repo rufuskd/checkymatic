@@ -3,7 +3,7 @@ import json
 from bson.json_util import dumps
 
 def app(environ, start_response):
-    client = pymongo.MongoClient('10.88.0.103', 27017)
+    client = pymongo.MongoClient('mongo.local', 27017)
     db = client['testdb']
     collection = db['testcollection']
     try:
