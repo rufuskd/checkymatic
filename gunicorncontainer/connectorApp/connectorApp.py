@@ -26,6 +26,14 @@ def app(environ, start_response):
             ("Content-Type", "application/json")
         ])
         return [data.encode('utf-8')]
+    elif environ['REQUEST_METHOD'] == 'DELETE':
+        print(environ['QUERY_STRING'].split('=')[1])
+        collection.delete_one({"_id.$oid":environ['QUERY_STRING'].split('=')[1]})
+        print("DELETE")
+        start_response("200 OK", [
+            ("Content-Type", "application/json")
+        ])
+        data = { "LOL": "Benis" }
     else:
         data = { "Status": "Borked" }
     start_response("200 OK", [
