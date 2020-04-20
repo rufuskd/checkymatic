@@ -1,6 +1,7 @@
 import pymongo
 import json
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 
 def app(environ, start_response):
     client = pymongo.MongoClient('mongo.local', 27017)
@@ -28,11 +29,8 @@ def app(environ, start_response):
         return [data.encode('utf-8')]
     elif environ['REQUEST_METHOD'] == 'DELETE':
         print(environ['QUERY_STRING'].split('=')[1])
-        collection.delete_one({"_id.$oid":environ['QUERY_STRING'].split('=')[1]})
+        collection.delete_one({"_id":ObjectId(environ['QUERY_STRING'].split('=')[1])})
         print("DELETE")
-        start_response("200 OK", [
-            ("Content-Type", "application/json")
-        ])
         data = { "LOL": "Benis" }
     else:
         data = { "Status": "Borked" }
